@@ -489,8 +489,20 @@ void setup()
   lcd_init();
   _delay_ms(1000);	// wait 1sec to display the splash screen
 
-  #if defined(CONTROLLERFAN_PIN) && CONTROLLERFAN_PIN > -1
-    SET_OUTPUT(CONTROLLERFAN_PIN); //Set pin used for driver cooling fan
+  #if defined(CASEFAN_PIN) && CASEFAN_PIN > -1
+    SET_OUTPUT(CASEFAN_PIN); //Set pin used for driver cooling fan
+	//
+	if (CASEFAN_SPEED_FULL <= CASEFAN_SPEED_MAX)
+	{
+            digitalWrite(CASEFAN_PIN, CASEFAN_SPEED_FULL); 
+            analogWrite(CASEFAN_PIN, CASEFAN_SPEED_FULL);
+	}
+	else 
+	{
+            digitalWrite(CASEFAN_PIN, CASEFAN_SPEED_MAX); 
+            analogWrite(CASEFAN_PIN, CASEFAN_SPEED_MAX);
+	}
+	//
   #endif
 }
 
@@ -3237,48 +3249,60 @@ void prepare_arc_move(char isclockwise) {
   previous_millis_cmd = millis();
 }
 
-#if defined(CONTROLLERFAN_PIN) && CONTROLLERFAN_PIN > -1
+#if defined(CASEFAN_PIN) && CASEFAN_PIN > -1
 
 #if defined(FAN_PIN)
-  #if CONTROLLERFAN_PIN == FAN_PIN
-    #error "You cannot set CONTROLLERFAN_PIN equal to FAN_PIN"
+  #if CASEFAN_PIN == FAN_PIN 
+    #error "You cannot set CASEFAN_PIN equal to FAN_PIN"
   #endif
-#endif
+#endif 
 
 unsigned long lastMotor = 0; //Save the time for when a motor was turned on last
 unsigned long lastMotorCheck = 0;
 
-void controllerFan()
+void caseFan()
 {
   if ((millis() - lastMotorCheck) >= 2500) //Not a time critical function, so we only check every 2500ms
   {
     lastMotorCheck = millis();
 
-    if(!READ(X_ENABLE_PIN) || !READ(Y_ENABLE_PIN) || !READ(Z_ENABLE_PIN) || (soft_pwm_bed > 0)
+    if(!READ(X_ENABLE_PIN) || !READ(Y_ENABLE_PIN) || !READ(Z_ENABLE_PIN)
     #if EXTRUDERS > 2
        || !READ(E2_ENABLE_PIN)
     #endif
     #if EXTRUDER > 1
-      #if defined(X2_ENABLE_PIN) && X2_ENABLE_PIN > -1
-       || !READ(X2_ENABLE_PIN)
-      #endif
        || !READ(E1_ENABLE_PIN)
     #endif
        || !READ(E0_ENABLE_PIN)) //If any of the drivers are enabled...
     {
       lastMotor = millis(); //... set time to NOW so the fan will turn on
     }
-
-    if ((millis() - lastMotor) >= (CONTROLLERFAN_SECS*1000UL) || lastMotor == 0) //If the last time any driver was enabled, is longer since than CONTROLLERSEC...
+    
+    if ((millis() - lastMotor) >= (CASEFAN_SECS*1000UL) || lastMotor == 0) //If the last time any driver was enabled, is longer since than CASEFAN_SEC...   
     {
-        digitalWrite(CONTROLLERFAN_PIN, 0);
-        analogWrite(CONTROLLERFAN_PIN, 0);
+	if (CASEFAN_SPEED_IDLE >= CASEFAN_SPEED_MIN)
+	{
+            digitalWrite(CASEFAN_PIN, CASEFAN_SPEED_IDLE); 
+            analogWrite(CASEFAN_PIN, CASEFAN_SPEED_IDLE);
+	}
+	else 
+	{
+            digitalWrite(CASEFAN_PIN, CASEFAN_SPEED_MIN); 
+            analogWrite(CASEFAN_PIN, CASEFAN_SPEED_MIN);
+	} 
     }
     else
     {
-        // allows digital or PWM fan output to be used (see M42 handling)
-        digitalWrite(CONTROLLERFAN_PIN, CONTROLLERFAN_SPEED);
-        analogWrite(CONTROLLERFAN_PIN, CONTROLLERFAN_SPEED);
+	if (CASEFAN_SPEED_FULL <= CASEFAN_SPEED_MAX)
+	{
+            digitalWrite(CASEFAN_PIN, CASEFAN_SPEED_FULL); 
+            analogWrite(CASEFAN_PIN, CASEFAN_SPEED_FULL);
+	}
+	else 
+	{
+            digitalWrite(CASEFAN_PIN, CASEFAN_SPEED_MAX); 
+            analogWrite(CASEFAN_PIN, CASEFAN_SPEED_MAX);
+	} 
     }
   }
 }
@@ -3339,8 +3363,8 @@ void manage_inactivity()
     if( 0 == READ(KILL_PIN) )
       kill();
   #endif
-  #if defined(CONTROLLERFAN_PIN) && CONTROLLERFAN_PIN > -1
-    controllerFan(); //Check if fan should be turned on to cool stepper drivers down
+  #if defined(CASEFAN_PIN) && CASEFAN_PIN > -1
+    caseFan(); //Check if fan should be turned on to cool stepper drivers down
   #endif
   #ifdef EXTRUDER_RUNOUT_PREVENT
     if( (millis() - previous_millis_cmd) >  EXTRUDER_RUNOUT_SECONDS*1000 )

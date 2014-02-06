@@ -58,12 +58,17 @@
 #define TEMP_SENSOR_AD595_OFFSET 0.0
 #define TEMP_SENSOR_AD595_GAIN   1.0
 
-//This is for controlling a fan to cool down the stepper drivers
+
+//This is for case a fan to cool down the electronics it will turn on after setup is complete.
 //it will turn on when any driver is enabled
 //and turn off after the set amount of seconds from last driver being disabled again
-#define CONTROLLERFAN_PIN -1 //Pin used for the fan to cool controller (-1 to disable)
-#define CONTROLLERFAN_SECS 60 //How many seconds, after all motors were disabled, the fan should run
-#define CONTROLLERFAN_SPEED 255  // == full speed
+#define CASEFAN_PIN 2 //Pin used for the fan to cool controller (-1 to disable)
+#define CASEFAN_SECS 15 //How many seconds, after all motors were disabled, the fan should run before going back to idle speed.
+#define CASEFAN_SPEED_FULL 100  // Full speed for when motor are active
+#define CASEFAN_SPEED_IDLE 70  	// Idle speed for when the motor have been inactive	
+#define CASEFAN_SPEED_MAX 128  	// Maximum limit for the fan speed so it does not burn out. Use 128 for 12v fans with 24V Power Supplies
+#define CASEFAN_SPEED_MIN 70	// Minimum limit for the fan speed where it will start to spin from a stop without a push.
+
 
 // When first starting the main fan, run it at full speed for the
 // given number of milliseconds.  This gets the fan spinning reliably
