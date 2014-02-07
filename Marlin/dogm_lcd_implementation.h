@@ -56,8 +56,8 @@
 // DOGM parameters (size in pixels)
 #define DOG_CHAR_WIDTH			6
 #define DOG_CHAR_HEIGHT			12
-#define DOG_CHAR_WIDTH_LARGE	9
-#define DOG_CHAR_HEIGHT_LARGE	18
+#define DOG_CHAR_WIDTH_LARGE	7
+#define DOG_CHAR_HEIGHT_LARGE	13
 
 
 #define START_ROW				0
@@ -461,10 +461,10 @@ static void lcd_implementation_drawmenu_setting_edit_generic_P(uint8_t row, cons
 void lcd_implementation_drawedit(const char* pstr, char* value)
 {
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH_LARGE, (u8g.getHeight() - 1 - DOG_CHAR_HEIGHT_LARGE) - (1 * DOG_CHAR_HEIGHT_LARGE) - START_ROW );
-		u8g.setFont(u8g_font_9x18);
+		u8g.setFont(u8g_font_7x13);
 		lcd_printPGM(pstr);
 		u8g.print(':');
-		u8g.setPrintPos((14 - strlen(value)) * DOG_CHAR_WIDTH_LARGE, (u8g.getHeight() - 1 - DOG_CHAR_HEIGHT_LARGE) - (1 * DOG_CHAR_HEIGHT_LARGE) - START_ROW );
+		u8g.setPrintPos((18 - strlen(value)) * DOG_CHAR_WIDTH_LARGE, (u8g.getHeight() - 1 - DOG_CHAR_HEIGHT_LARGE) - (1 * DOG_CHAR_HEIGHT_LARGE) - START_ROW );
 		u8g.print(value);
 }
 
