@@ -595,7 +595,7 @@ static void lcd_implementation_quick_feedback()
 
 #if BEEPER > -1
     SET_OUTPUT(BEEPER);
-    for(int8_t i=0;i<10;i++)
+    for(int8_t i=0;i<1;i++)
     {
 		// Beep note selection using pitches.h
 		tone(BEEPER,NOTE_C6);
