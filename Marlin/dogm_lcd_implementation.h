@@ -39,6 +39,8 @@
 #include "ultralcd.h"
 #include "ultralcd_st7920_u8glib_rrd.h"
 
+// Fancy sounds
+#include "pitches.h"
 
 /* Russian language not supported yet, needs custom font
 
@@ -595,10 +597,10 @@ static void lcd_implementation_quick_feedback()
     SET_OUTPUT(BEEPER);
     for(int8_t i=0;i<10;i++)
     {
-		WRITE(BEEPER,HIGH);
-		delay(3);
-		WRITE(BEEPER,LOW);
-		delay(3);
+		// Beep note selection using pitches.h
+		tone(BEEPER,NOTE_C6);
+                delay(10);
+		noTone(BEEPER);
     }
 #endif
 }
