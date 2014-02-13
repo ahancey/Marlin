@@ -254,6 +254,8 @@ void Config_ResetDefault()
     // steps per sq second need to be updated to agree with the units per sq second
     reset_acceleration_rates();
     
+    e2_steps_per_unit=DEFAULT_E2_STEPS_PER_UNIT;
+    
     acceleration=DEFAULT_ACCELERATION;
     retract_acceleration=DEFAULT_RETRACT_ACCELERATION;
     minimumfeedrate=DEFAULT_MINIMUMFEEDRATE;
