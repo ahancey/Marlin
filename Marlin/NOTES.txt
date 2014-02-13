@@ -1,0 +1,8 @@
+extruder_offset value is created in Marlin_main.cpp line 216
+	two sets of values are made, one set for x and one set for y
+	
+Marlin_main.cpp line 2530
+	This appears to be where the offset value is made into the M218 gcode command
+	
+	
+Added none working lines into ultralcd.cpp, lines 729 and 730
