@@ -3,7 +3,7 @@
 #include "temperature.h"
 #include "ultralcd.h"
 #include "ConfigurationStore.h"
-//#include "extruders.h"
+#include "extruders.h"
 
 void _EEPROM_writeData(int &pos, uint8_t* value, uint8_t size)
 {
