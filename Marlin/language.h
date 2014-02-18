@@ -139,8 +139,8 @@
     #define MSG_ZPROBE_OUT "ZProbe Outside Bed"
     #define MSG_POSITION_UNKNOWN "Home X/Y before Z"
     #define MSG_ZPROBE_ZOFFSET "Z Offset"
-    #define MSG_NOZZLE2_OFFSET_X "Nzl2 X Offset"
-    #define MSG_NOZZLE2_OFFSET_Y "Nzl2 Y Offset"
+    #define MSG_NOZZLE2_OFFSET_X "N2 X Offset"
+    #define MSG_NOZZLE2_OFFSET_Y "N2 Y Offset"
 // Serial Console Messages
 
 	#define MSG_Enqueing "enqueing \""

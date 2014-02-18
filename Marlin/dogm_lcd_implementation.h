@@ -376,7 +376,7 @@ static void lcd_implementation_drawmenu_setting_edit_generic(uint8_t row, const 
 {
     static unsigned int fkt_cnt = 0;
 	char c;
-    uint8_t n = LCD_WIDTH - 1 - 2 - strlen(data);
+    uint8_t n = LCD_WIDTH - 1 - strlen(data);
 		
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.print(pre_char);
@@ -461,7 +461,7 @@ static void lcd_implementation_drawmenu_setting_edit_generic_P(uint8_t row, cons
 void lcd_implementation_drawedit(const char* pstr, char* value)
 {
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH_LARGE, (u8g.getHeight() - 1 - DOG_CHAR_HEIGHT_LARGE) - (1 * DOG_CHAR_HEIGHT_LARGE) - START_ROW );
-		u8g.setFont(u8g_font_7x13);
+		u8g.setFont(u8g_font_6x10_marlin);
 		lcd_printPGM(pstr);
 		u8g.print(':');
 		u8g.setPrintPos((18 - strlen(value)) * DOG_CHAR_WIDTH_LARGE, (u8g.getHeight() - 1 - DOG_CHAR_HEIGHT_LARGE) - (1 * DOG_CHAR_HEIGHT_LARGE) - START_ROW );
