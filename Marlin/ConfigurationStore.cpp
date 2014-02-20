@@ -48,7 +48,7 @@ void Config_StoreSettings()
   EEPROM_WRITE_VAR(i,axis_steps_per_unit);  
   EEPROM_WRITE_VAR(i,max_feedrate);  
   EEPROM_WRITE_VAR(i,max_acceleration_units_per_sq_second);
-  EEPROM_WRITE_VAR(i,e2_steps_per_unit);
+  EEPROM_WRITE_VAR(i,e1_steps_per_unit);
   EEPROM_WRITE_VAR(i,acceleration);
   EEPROM_WRITE_VAR(i,retract_acceleration);
   EEPROM_WRITE_VAR(i,minimumfeedrate);
@@ -106,7 +106,7 @@ void Config_PrintSettings()
     SERIAL_ECHOPAIR(" Y",axis_steps_per_unit[1]);
     SERIAL_ECHOPAIR(" Z",axis_steps_per_unit[2]);
     SERIAL_ECHOPAIR(" E",axis_steps_per_unit[3]);
-    SERIAL_ECHOPAIR(" E2",e2_steps_per_unit);
+    SERIAL_ECHOPAIR(" E1",e1_steps_per_unit);
     SERIAL_ECHOLN("");
       
     SERIAL_ECHO_START;
@@ -191,7 +191,7 @@ void Config_RetrieveSettings()
         // steps per sq second need to be updated to agree with the units per sq second (as they are what is used in the planner)
 		reset_acceleration_rates();
         
-        EEPROM_READ_VAR(i,e2_steps_per_unit);
+        EEPROM_READ_VAR(i,e1_steps_per_unit);
         EEPROM_READ_VAR(i,acceleration);
         EEPROM_READ_VAR(i,retract_acceleration);
         EEPROM_READ_VAR(i,minimumfeedrate);
@@ -257,7 +257,7 @@ void Config_ResetDefault()
     // steps per sq second need to be updated to agree with the units per sq second
     reset_acceleration_rates();
     
-    e2_steps_per_unit=DEFAULT_E2_STEPS_PER_UNIT;
+    e1_steps_per_unit=DEFAULT_E1_STEPS_PER_UNIT;
     
     acceleration=DEFAULT_ACCELERATION;
     retract_acceleration=DEFAULT_RETRACT_ACCELERATION;

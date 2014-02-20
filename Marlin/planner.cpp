@@ -65,7 +65,7 @@
 unsigned long minsegmenttime;
 float max_feedrate[4]; // set the max speeds
 float axis_steps_per_unit[4];
-float e2_steps_per_unit;
+float e1_steps_per_unit;
 unsigned long max_acceleration_units_per_sq_second[4]; // Use M201 to override by software
 float minimumfeedrate;
 float acceleration;         // Normal acceleration mm/s^2  THIS IS THE DEFAULT ACCELERATION for all moves. M204 SXXXX
