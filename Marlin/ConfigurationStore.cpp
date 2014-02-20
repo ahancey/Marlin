@@ -38,7 +38,7 @@ void _EEPROM_readData(int &pos, uint8_t* value, uint8_t size)
 // the default values are used whenever there is a change to the data, to prevent
 // wrong data being written to the variables.
 // ALSO:  always make sure the variables in the Store and retrieve sections are in the same order.
-#define EEPROM_VERSION "V10"
+#define EEPROM_VERSION "V11"
 
 #ifdef EEPROM_SETTINGS
 void Config_StoreSettings() 
@@ -47,6 +47,7 @@ void Config_StoreSettings()
   int i=EEPROM_OFFSET;
   EEPROM_WRITE_VAR(i,ver); // invalidate data first 
   EEPROM_WRITE_VAR(i,axis_steps_per_unit); 
+  EEPROM_WRITE_VAR(i,e1_steps_per_unit);
   EEPROM_WRITE_VAR(i,extruder_offset);
   EEPROM_WRITE_VAR(i,max_feedrate);  
   EEPROM_WRITE_VAR(i,max_acceleration_units_per_sq_second);
@@ -107,6 +108,7 @@ void Config_PrintSettings()
     SERIAL_ECHOPAIR(" Y",axis_steps_per_unit[1]);
     SERIAL_ECHOPAIR(" Z",axis_steps_per_unit[2]);
     SERIAL_ECHOPAIR(" E",axis_steps_per_unit[3]);
+    SERIAL_ECHOPAIR(" E1",e1_steps_per_unit);
     SERIAL_ECHOLN("");
       
     SERIAL_ECHO_START;
@@ -185,6 +187,7 @@ void Config_RetrieveSettings()
     {
         // version number match
         EEPROM_READ_VAR(i,axis_steps_per_unit);
+        EEPROM_READ_VAR(i,e1_steps_per_unit);
         EEPROM_READ_VAR(i,extruder_offset);
         EEPROM_READ_VAR(i,max_feedrate);  
         EEPROM_READ_VAR(i,max_acceleration_units_per_sq_second);
@@ -256,6 +259,8 @@ void Config_ResetDefault()
     
     // steps per sq second need to be updated to agree with the units per sq second
     reset_acceleration_rates();
+    
+    e1_steps_per_unit=DEFAULT_E1_STEPS_PER_UNIT;
     
     acceleration=DEFAULT_ACCELERATION;
     retract_acceleration=DEFAULT_RETRACT_ACCELERATION;

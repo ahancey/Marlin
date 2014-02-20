@@ -727,6 +727,7 @@ static void lcd_control_motion_menu()
     MENU_ITEM_EDIT(float52, MSG_YSTEPS, &axis_steps_per_unit[Y_AXIS], 5, 9999);
     MENU_ITEM_EDIT(float51, MSG_ZSTEPS, &axis_steps_per_unit[Z_AXIS], 5, 9999);
     MENU_ITEM_EDIT(float51, MSG_ESTEPS, &axis_steps_per_unit[E_AXIS], 5, 9999);
+    MENU_ITEM_EDIT(float51, MSG_E1STEPS, &e1_steps_per_unit, 5, 9999);
     MENU_ITEM_EDIT(float51, MSG_NOZZLE2_OFFSET_X, &extruder_offset[X_AXIS][1], 0.0, 99.0);
     MENU_ITEM_EDIT(float51, MSG_NOZZLE2_OFFSET_Y, &extruder_offset[Y_AXIS][1], 0.0, 99.0);
 #ifdef ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED
