@@ -262,6 +262,19 @@ void Config_ResetDefault()
     
     e1_steps_per_unit=DEFAULT_E1_STEPS_PER_UNIT;
     
+    // Extruder offset
+    for(short i=0; i<2; i++)
+    {
+        float e_offset_x[] = EXTRUDER_OFFSET_X;
+        float e_offset_y[] = EXTRUDER_OFFSET_Y;
+        
+        extruder_offset[0][i]=e_offset_x[i];
+        extruder_offset[1][i]=e_offset_y[i];
+    }
+
+
+    
+    
     acceleration=DEFAULT_ACCELERATION;
     retract_acceleration=DEFAULT_RETRACT_ACCELERATION;
     minimumfeedrate=DEFAULT_MINIMUMFEEDRATE;
