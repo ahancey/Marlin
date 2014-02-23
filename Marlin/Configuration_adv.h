@@ -62,7 +62,7 @@
 //This is for case a fan to cool down the electronics it will turn on after setup is complete.
 //it will turn on when any driver is enabled
 //and turn off after the set amount of seconds from last driver being disabled again
-#define CASEFAN_PIN 2 //Pin used for the fan to cool controller (-1 to disable)
+#define CASEFAN_PIN FAN2_PIN //Pin used for the fan to cool controller (-1 to disable)
 #define CASEFAN_SECS 15 //How many seconds, after all motors were disabled, the fan should run before going back to idle speed.
 #define CASEFAN_SPEED_FULL 100  // Full speed for when motor are active
 #define CASEFAN_SPEED_IDLE 70  	// Idle speed for when the motor have been inactive	
