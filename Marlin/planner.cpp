@@ -501,19 +501,19 @@ void check_axes_activity()
   fanSpeedSoftPwm = tail_fan_speed;
   #else
      #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1
-	    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3
+	    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3     // EXTRUDER_FAN_SETUP = 1 OR 3
 		    analogWrite(EX_FAN_0,tail_fan_speed);
-	    #else if EXTRUDER_FAN_SETUP == 2
-	       if (active_FAN == 0){
+	    #else if EXTRUDER_FAN_SETUP == 2                           // EXTRUDER_FAN_SETUP =2
+	       if (active_FAN == 0){                                       // Sets EX_FAN_0 to speed set by M106/M107 and turns off EX_FAN_1
 	         analogWrite(EX_FAN_0,tail_fan_speed);
 			 analogWrite(EX_FAN_1,0);
 	       }
-	       else if  (active_FAN == 1){
+	       else if  (active_FAN == 1){                                 // Sets EX_FAN_0 to speed set by M106/M107 and turns off EX_FAN_1
 			 analogWrite(EX_FAN_0,0);
 	         analogWrite(EX_FAN_1,tail_fan_speed);
 	       }
 	    #endif 
-	 #endif
+	 #endif  // EXTRUDER_FAN_SETUP
   #endif //!FAN_SOFT_PWM
 #endif//FAN_PIN > -1
 

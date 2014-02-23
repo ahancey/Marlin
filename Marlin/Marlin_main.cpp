@@ -115,7 +115,7 @@
 // M92  - Set axis_steps_per_unit - same syntax as G92
 // M104 - Set extruder target temp
 // M105 - Read current temp
-// M106 - Fan on
+// M106 - Fan on - P0/P1 selects which fan to use for cooling S0 to S255 sets the fan speed 
 // M107 - Fan off
 // M109 - Sxxx Wait for extruder current temp to reach target temp. Waits only when heating
 //        Rxxx Wait for extruder current temp to reach target temp. Waits when heating and cooling
@@ -1995,12 +1995,12 @@ void process_commands()
 
     #if defined(FAN_PIN) && FAN_PIN > -1
       case 106: //M106 Fan On
-		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 2
-		   if (code_seen('P')){
-		      active_FAN=constrain(code_value(),0,255);
+		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 2  //If EXTRUDER_FAN_SETUP = 2 then P0 will control fan0 and P1 will switch to fan1
+		   if (code_seen('P')){ 
+		      active_FAN=constrain(code_value(),0,1);
 		   }
 		#endif   
-		if (code_seen('S')){
+		if (code_seen('S')){    //Setting the fan speed from 0 to 255
            fanSpeed=constrain(code_value(),0,255);
         }
         else {
