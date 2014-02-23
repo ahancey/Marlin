@@ -500,9 +500,23 @@ void check_axes_activity()
   #ifdef FAN_SOFT_PWM
   fanSpeedSoftPwm = tail_fan_speed;
   #else
-  analogWrite(FAN_PIN,tail_fan_speed);
-  #endif//!FAN_SOFT_PWM
+     #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1
+	    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3
+		    analogWrite(EX_FAN_0,tail_fan_speed);
+	    #else if EXTRUDER_FAN_SETUP == 2
+	       if (active_FAN == 0){
+	         analogWrite(EX_FAN_0,tail_fan_speed);
+			 analogWrite(EX_FAN_1,0);
+	       }
+	       else if  (active_FAN == 1){
+			 analogWrite(EX_FAN_0,0);
+	         analogWrite(EX_FAN_1,tail_fan_speed);
+	       }
+	    #endif 
+	 #endif
+  #endif //!FAN_SOFT_PWM
 #endif//FAN_PIN > -1
+
 #ifdef AUTOTEMP
   getHighESpeed();
 #endif

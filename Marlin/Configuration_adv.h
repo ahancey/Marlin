@@ -80,21 +80,20 @@
 // extruder temperature is above/below EXTRUDER_AUTO_FAN_TEMPERATURE.
 // Multiple extruders can be assigned to the same pin in which case 
 // the fan will turn on when any selected extruder is above the threshold.
-
-
 #define EXTRUDER_0_AUTO_FAN_PIN   -1
 #define EXTRUDER_1_AUTO_FAN_PIN   -1
 #define EXTRUDER_2_AUTO_FAN_PIN   -1
 #define EXTRUDER_AUTO_FAN_TEMPERATURE 50
 #define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
 
-// Extruder Fan setup 
+// Extruder Fan Setup 
 // If set to -1 all Extruder fans will be disabled
-// If set to  1 only Fan0 will be used as a nozzle cooling fan for Extruder0
-// If set to  2 Fan0 and Fan 1 will be used as nozzle cooling fan and will switch between active nozzles
-// If set to  3 Fan0 will be used as a nozzle cooling fan and Fan1 will be used as a heat sink fan
-#define EXTRUDER_FAN_SETUP -1
-
+// If set to  1 only EX_FAN_0 will be used as a nozzle cooling fan for Extruder0
+// If set to  2 EX_FAN_0 and EX_FAN_0 will be used as nozzle cooling fan and will switch between active nozzles
+// If set to  3 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_0 will be used as a heat sink fan
+#define EXTRUDER_FAN_SETUP 2
+#define EX_FAN_0 FAN_PIN
+#define EX_FAN_0 FAN1_PIN
 
 //===========================================================================
 //=============================Mechanical Settings===========================

@@ -221,6 +221,7 @@ float zprobe_zoffset;
 //};
 //#endif
 uint8_t active_extruder = 0;
+uint8_t active_FAN = 0;
 int fanSpeed=0;
 #ifdef SERVO_ENDSTOPS
   int servo_endstops[] = SERVO_ENDSTOPS;
@@ -1994,7 +1995,12 @@ void process_commands()
 
     #if defined(FAN_PIN) && FAN_PIN > -1
       case 106: //M106 Fan On
-        if (code_seen('S')){
+		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 2
+		   if (code_seen('P')){
+		      active_FAN=constrain(code_value(),0,255);
+		   }
+		#endif   
+		if (code_seen('S')){
            fanSpeed=constrain(code_value(),0,255);
         }
         else {
