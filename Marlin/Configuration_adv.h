@@ -89,11 +89,11 @@
 // Extruder Fan Setup 
 // If set to -1 all Extruder fans will be disabled
 // If set to  1 only EX_FAN_0 will be used as a nozzle cooling fan for Extruder0
-// If set to  2 EX_FAN_0 and EX_FAN_0 will be used as nozzle cooling fan and will switch between active nozzles
-// If set to  3 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_0 will be used as a heat sink fan
+// If set to  2 EX_FAN_0 and EX_FAN_1 will be used as nozzle cooling fan and will switch between active nozzles
+// If set to  3 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_1 will be used as a heat sink fan
 #define EXTRUDER_FAN_SETUP 2
 #define EX_FAN_0 FAN_PIN
-#define EX_FAN_0 FAN1_PIN
+#define EX_FAN_1 FAN1_PIN
 
 //===========================================================================
 //=============================Mechanical Settings===========================

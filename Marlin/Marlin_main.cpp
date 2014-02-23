@@ -2912,6 +2912,9 @@ void process_commands()
   else if(code_seen('T'))
   {
     tmp_extruder = code_value();
+	#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP ==2
+		active_FAN = code_value();
+	#endif
     if(tmp_extruder >= EXTRUDERS) {
       SERIAL_ECHO_START;
       SERIAL_ECHO("T");
