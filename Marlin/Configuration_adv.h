@@ -75,17 +75,6 @@
 // before setting a PWM value. (Does not work with software PWM for fan on Sanguinololu)
 //#define FAN_KICKSTART_TIME 100
 
-// Extruder cooling fans
-// Configure fan pin outputs to automatically turn on/off when the associated
-// extruder temperature is above/below EXTRUDER_AUTO_FAN_TEMPERATURE.
-// Multiple extruders can be assigned to the same pin in which case 
-// the fan will turn on when any selected extruder is above the threshold.
-#define EXTRUDER_0_AUTO_FAN_PIN   -1
-#define EXTRUDER_1_AUTO_FAN_PIN   -1
-#define EXTRUDER_2_AUTO_FAN_PIN   -1
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 50
-#define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
-
 // Extruder Fan Setup 
 // If set to -1 all Extruder fans will be disabled
 // If set to  1 only EX_FAN_0 will be used as a nozzle cooling fan for Extruder0
@@ -95,6 +84,18 @@
 #define EX_FAN_0 FAN_PIN
 #define EX_FAN_1 FAN1_PIN
 
+#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 3
+    // Extruder cooling fans
+    // Configure fan pin outputs to automatically turn on/off when the associated
+    // extruder temperature is above/below EXTRUDER_AUTO_FAN_TEMPERATURE.
+    // Multiple extruders can be assigned to the same pin in which case 
+    // the fan will turn on when any selected extruder is above the threshold.
+    #define EXTRUDER_0_AUTO_FAN_PIN   EX_FAN_1
+    #define EXTRUDER_1_AUTO_FAN_PIN   EX_FAN_1
+    #define EXTRUDER_2_AUTO_FAN_PIN   -1
+    #define EXTRUDER_AUTO_FAN_TEMPERATURE 50
+    #define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
+#endif
 //===========================================================================
 //=============================Mechanical Settings===========================
 //===========================================================================

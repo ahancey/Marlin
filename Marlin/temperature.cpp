@@ -336,25 +336,16 @@ int getHeaterPower(int heater) {
     (defined(EXTRUDER_2_AUTO_FAN_PIN) && EXTRUDER_2_AUTO_FAN_PIN > -1)
 
   #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1
-    #if EXTRUDER_0_AUTO_FAN_PIN == EX_FAN_0 
-       #error "You cannot set EXTRUDER_0_AUTO_FAN_PIN equal to EX_FAN_0"
+    #if EXTRUDER_0_AUTO_FAN_PIN == CASEFAN_PIN
+       #error "You cannot set EXTRUDER_0_AUTO_FAN_PIN equal to CASEFAN_PIN"
     #endif
-    #if EXTRUDER_1_AUTO_FAN_PIN == EX_FAN_0 
-       #error "You cannot set EXTRUDER_1_AUTO_FAN_PIN equal to EX_FAN_0"
+    #if EXTRUDER_1_AUTO_FAN_PIN == CASEFAN_PIN 
+       #error "You cannot set EXTRUDER_1_AUTO_FAN_PIN equal to CASEFAN_PIN"
     #endif
-    #if EXTRUDER_2_AUTO_FAN_PIN == EX_FAN_0 
-       #error "You cannot set EXTRUDER_2_AUTO_FAN_PIN equal to EX_FAN_0"
+    #if EXTRUDER_2_AUTO_FAN_PIN == CASEFAN_PIN 
+       #error "You cannot set EXTRUDER_2_AUTO_FAN_PIN equal to CASEFAN_PIN"
     #endif
-	    #if EXTRUDER_0_AUTO_FAN_PIN == EX_FAN_1 
-       #error "You cannot set EXTRUDER_0_AUTO_FAN_PIN equal to EX_FAN_1"
-    #endif
-    #if EXTRUDER_1_AUTO_FAN_PIN == EX_FAN_1 
-       #error "You cannot set EXTRUDER_1_AUTO_FAN_PIN equal to EX_FAN_1"
-    #endif
-    #if EXTRUDER_2_AUTO_FAN_PIN == EX_FAN_1 
-       #error "You cannot set EXTRUDER_2_AUTO_FAN_PIN equal to EX_FAN_1"
-    #endif
-	
+
   #endif 
 
 void setExtruderAutoFanState(int pin, bool state)
