@@ -75,16 +75,18 @@
 // before setting a PWM value. (Does not work with software PWM for fan on Sanguinololu)
 //#define FAN_KICKSTART_TIME 100
 
+
 // Extruder Fan Setup 
 // If set to -1 all Extruder fans will be disabled
 // If set to  1 only EX_FAN_0 will be used as a nozzle cooling fan for Extruder0
 // If set to  2 EX_FAN_0 and EX_FAN_1 will be used as nozzle cooling fan and will switch between active nozzles
-// If set to  3 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_1 will be used as a heat sink fan
-#define EXTRUDER_FAN_SETUP 2
+// If set to  3 EX_FAN_0 will be Contorled by M106 S255 and EX_FAN_1 will be controled by M106 P1 S255
+// If set to  4 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_1 will be used as a heat sink fan
+#define EXTRUDER_FAN_SETUP 3
 #define EX_FAN_0 FAN_PIN
 #define EX_FAN_1 FAN1_PIN
 
-#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 3
+#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 4
     // Extruder cooling fans
     // Configure fan pin outputs to automatically turn on/off when the associated
     // extruder temperature is above/below EXTRUDER_AUTO_FAN_TEMPERATURE.

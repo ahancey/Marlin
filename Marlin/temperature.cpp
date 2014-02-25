@@ -64,6 +64,7 @@ float current_temperature_bed = 0.0;
   
 #ifdef FAN_SOFT_PWM
   unsigned char fanSpeedSoftPwm;
+  unsigned char fanSpeedSoftPwm1;
 #endif
 
 unsigned char soft_pwm_bed;
@@ -110,6 +111,7 @@ static volatile bool temp_meas_ready = false;
 
 #ifdef FAN_SOFT_PWM
   static unsigned char soft_pwm_fan;
+  static unsigned char soft_pwm_fan1;
 #endif
 #if (defined(EXTRUDER_0_AUTO_FAN_PIN) && EXTRUDER_0_AUTO_FAN_PIN > -1) || \
     (defined(EXTRUDER_1_AUTO_FAN_PIN) && EXTRUDER_1_AUTO_FAN_PIN > -1) || \
@@ -728,15 +730,16 @@ void tp_init()
     SET_OUTPUT(HEATER_BED_PIN);
   #endif  
   #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1 
-    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3
+    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 4
 	   SET_OUTPUT(EX_FAN_0);
        #ifdef FAST_PWM_FAN
        setPwmFrequency(EX_FAN_0, 1); // No prescaling. Pwm frequency = F_CPU/256/8
        #endif
        #ifdef FAN_SOFT_PWM
        soft_pwm_fan = fanSpeedSoftPwm / 2;
-       #endif
-	#else if EXTRUDER_FAN_SETUP == 2
+	   #endif
+	#endif
+	#if EXTRUDER_FAN_SETUP == 2
         if(active_FAN == 0){
 	       SET_OUTPUT(EX_FAN_0);
            #ifdef FAST_PWM_FAN
@@ -756,6 +759,19 @@ void tp_init()
            #endif
 		}
 	#endif 
+	#if EXTRUDER_FAN_SETUP == 3 
+	   SET_OUTPUT(EX_FAN_0);
+	   SET_OUTPUT(EX_FAN_1);
+       #ifdef FAST_PWM_FAN
+       setPwmFrequency(EX_FAN_0, 1); // No prescaling. Pwm frequency = F_CPU/256/8
+	   setPwmFrequency(EX_FAN_1, 1); // No prescaling. Pwm frequency = F_CPU/256/8
+       #endif
+       #ifdef FAN_SOFT_PWM
+       soft_pwm_fan = fanSpeedSoftPwm / 2;
+	   soft_pwm_fan1 = fanSpeedSoftPwm1 / 2;
+       #endif
+	#endif
+	
   #endif  
 
   #ifdef HEATER_0_USES_MAX6675
@@ -1097,16 +1113,22 @@ ISR(TIMER0_COMPB_vect)
     #endif
     #ifdef FAN_SOFT_PWM
 	    soft_pwm_fan = fanSpeedSoftPwm / 2;
+		soft_pwm_fan1 = fanSpeedSoftPwm1 / 2;
 	    #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1
-	        #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3
+	        #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 4
                 if(soft_pwm_fan > 0) WRITE(EX_FAN_0,1); else WRITE(EX_FAN_0,0);
-			#else if EXTRUDER_FAN_SETUP == 2  
+			#endif	
+			#if EXTRUDER_FAN_SETUP == 2  
 				if (active_FAN == 0){                                       
 			        if(soft_pwm_fan > 0) WRITE(EX_FAN_0,1); else WRITE(EX_FAN_0,0);
 				}	
 				else if (active_FAN == 1){                                       	
 			        if(soft_pwm_fan > 0) WRITE(EX_FAN_1,1); else WRITE(EX_FAN_1,0);
 				}
+			#endif
+			#if EXTRUDER_FAN_SETUP == 3 
+                if(soft_pwm_fan > 0) WRITE(EX_FAN_0,1); else WRITE(EX_FAN_0,0);
+				if(soft_pwm_fan1 > 0) WRITE(EX_FAN_1,1); else WRITE(EX_FAN_1,0);
 			#endif
 		#endif
     #endif
@@ -1128,15 +1150,20 @@ ISR(TIMER0_COMPB_vect)
   #endif
   #ifdef FAN_SOFT_PWM
 	   #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1
-	        #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3
+	        #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 4
                 if(soft_pwm_fan < pwm_count) WRITE(EX_FAN_0,0);
-			#else if EXTRUDER_FAN_SETUP == 2  
+			#endif
+			#if EXTRUDER_FAN_SETUP == 2  
 				if (active_FAN == 0){                                       
 			       if(soft_pwm_fan < pwm_count) WRITE(EX_FAN_0,0);
 				}	
 				else if (active_FAN == 1){                                       	
 			       if(soft_pwm_fan < pwm_count) WRITE(EX_FAN_1,0);
 				}
+			#endif
+			#if EXTRUDER_FAN_SETUP == 3 
+                if(soft_pwm_fan < pwm_count) WRITE(EX_FAN_0,0);
+				if(soft_pwm_fan1 < pwm_count) WRITE(EX_FAN_1,0);
 			#endif
 		#endif
   #endif

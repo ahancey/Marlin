@@ -449,6 +449,7 @@ void check_axes_activity()
   unsigned char z_active = 0;
   unsigned char e_active = 0;
   unsigned char tail_fan_speed = fanSpeed;
+  unsigned char tail_fan_speed1 = fanSpeed1;
   #ifdef BARICUDA
   unsigned char tail_valve_pressure = ValvePressure;
   unsigned char tail_e_to_p_pressure = EtoPPressure;
@@ -459,6 +460,7 @@ void check_axes_activity()
   {
     uint8_t block_index = block_buffer_tail;
     tail_fan_speed = block_buffer[block_index].fan_speed;
+	tail_fan_speed1 = block_buffer[block_index].fan_speed1;
     #ifdef BARICUDA
     tail_valve_pressure = block_buffer[block_index].valve_pressure;
     tail_e_to_p_pressure = block_buffer[block_index].e_to_p_pressure;
@@ -499,19 +501,25 @@ void check_axes_activity()
   #endif//FAN_KICKSTART_TIME
   #ifdef FAN_SOFT_PWM
   fanSpeedSoftPwm = tail_fan_speed;
+  fanSpeedSoftPwm1 = tail_fan_speed1;
   #else
      #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP > -1
-	    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 3     // EXTRUDER_FAN_SETUP = 1 OR 3
+	    #if EXTRUDER_FAN_SETUP == 1 || EXTRUDER_FAN_SETUP == 4     // EXTRUDER_FAN_SETUP = 1 OR 4
 		    analogWrite(EX_FAN_0,tail_fan_speed);
-	    #else if EXTRUDER_FAN_SETUP == 2                           // EXTRUDER_FAN_SETUP =2
-	       if (active_FAN == 0){                                       // Sets EX_FAN_0 to speed set by M106/M107 and turns off EX_FAN_1
-	         analogWrite(EX_FAN_0,tail_fan_speed);
-			 analogWrite(EX_FAN_1,0);
-	       }
-	       else if  (active_FAN == 1){                                 // Sets EX_FAN_0 to speed set by M106/M107 and turns off EX_FAN_1
-			 analogWrite(EX_FAN_0,0);
-	         analogWrite(EX_FAN_1,tail_fan_speed);
-	       }
+		#endif 
+	    #if EXTRUDER_FAN_SETUP == 2                           // EXTRUDER_FAN_SETUP =2
+			if (active_FAN == 0){                                       // Sets EX_FAN_0 to speed set by M106/M107 and turns off EX_FAN_1
+				analogWrite(EX_FAN_0,tail_fan_speed);
+				analogWrite(EX_FAN_1,0);
+			}
+			else if  (active_FAN == 1){                                 // Sets EX_FAN_0 to speed set by M106/M107 and turns off EX_FAN_1
+				analogWrite(EX_FAN_0,0);
+				analogWrite(EX_FAN_1,tail_fan_speed);
+			}
+		#endif 
+		#if EXTRUDER_FAN_SETUP == 3                           // EXTRUDER_FAN_SETUP = 3
+			analogWrite(EX_FAN_0,tail_fan_speed);
+			analogWrite(EX_FAN_1,tail_fan_speed1);
 	    #endif 
 	 #endif  // EXTRUDER_FAN_SETUP
   #endif //!FAN_SOFT_PWM
@@ -624,6 +632,7 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
   }
 
   block->fan_speed = fanSpeed;
+  block->fan_speed1 = fanSpeed1;
   #ifdef BARICUDA
   block->valve_pressure = ValvePressure;
   block->e_to_p_pressure = EtoPPressure;
