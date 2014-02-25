@@ -47,7 +47,7 @@
 #include "language.h"
 #include "pins_arduino.h"
 #include "math.h"
-#include "extruders.h"
+
 
 #ifdef BLINKM
 #include "BlinkM.h"
@@ -207,19 +207,19 @@ float max_pos[3] = { X_MAX_POS, Y_MAX_POS, Z_MAX_POS };
 bool axis_known_position[3] = {false, false, false};
 float zprobe_zoffset;
 
-// Extruder offset
-//#if EXTRUDERS > 1
-//#ifndef DUAL_X_CARRIAGE
-//  #define NUM_EXTRUDER_OFFSETS 2 // only in XY plane
-//#else
-//  #define NUM_EXTRUDER_OFFSETS 3 // supports offsets in XYZ plane
-//#endif
-//float extruder_offset[NUM_EXTRUDER_OFFSETS][EXTRUDERS] = {
-//#if defined(EXTRUDER_OFFSET_X) && defined(EXTRUDER_OFFSET_Y)
-//  EXTRUDER_OFFSET_X, EXTRUDER_OFFSET_Y
-//#endif
-//};
-//#endif
+ Extruder offset
+#if EXTRUDERS > 1
+#ifndef DUAL_X_CARRIAGE
+  #define NUM_EXTRUDER_OFFSETS 2 // only in XY plane
+#else
+  #define NUM_EXTRUDER_OFFSETS 3 // supports offsets in XYZ plane
+#endif
+float extruder_offset[NUM_EXTRUDER_OFFSETS][EXTRUDERS] = {
+#if defined(EXTRUDER_OFFSET_X) && defined(EXTRUDER_OFFSET_Y)
+  EXTRUDER_OFFSET_X, EXTRUDER_OFFSET_Y
+#endif
+};
+#endif
 uint8_t active_extruder = 0;
 int fanSpeed=0;
 #ifdef SERVO_ENDSTOPS
