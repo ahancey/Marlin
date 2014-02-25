@@ -207,7 +207,7 @@ float max_pos[3] = { X_MAX_POS, Y_MAX_POS, Z_MAX_POS };
 bool axis_known_position[3] = {false, false, false};
 float zprobe_zoffset;
 
- Extruder offset
+//Extruder offset
 #if EXTRUDERS > 1
 #ifndef DUAL_X_CARRIAGE
   #define NUM_EXTRUDER_OFFSETS 2 // only in XY plane

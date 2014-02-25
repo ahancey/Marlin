@@ -3,7 +3,6 @@
 #include "temperature.h"
 #include "ultralcd.h"
 #include "ConfigurationStore.h"
-#include "extruders.h"
 
 void _EEPROM_writeData(int &pos, uint8_t* value, uint8_t size)
 {
@@ -48,7 +47,7 @@ void Config_StoreSettings()
   EEPROM_WRITE_VAR(i,ver); // invalidate data first 
   EEPROM_WRITE_VAR(i,axis_steps_per_unit); 
   EEPROM_WRITE_VAR(i,e1_steps_per_unit);
-  EEPROM_WRITE_VAR(i,extruder_offset);
+  //EEPROM_WRITE_VAR(i,extruder_offset);
   EEPROM_WRITE_VAR(i,max_feedrate);  
   EEPROM_WRITE_VAR(i,max_acceleration_units_per_sq_second);
   EEPROM_WRITE_VAR(i,acceleration);
@@ -188,7 +187,7 @@ void Config_RetrieveSettings()
         // version number match
         EEPROM_READ_VAR(i,axis_steps_per_unit);
         EEPROM_READ_VAR(i,e1_steps_per_unit);
-        EEPROM_READ_VAR(i,extruder_offset);
+        //EEPROM_READ_VAR(i,extruder_offset);
         EEPROM_READ_VAR(i,max_feedrate);  
         EEPROM_READ_VAR(i,max_acceleration_units_per_sq_second);
         
@@ -263,14 +262,14 @@ void Config_ResetDefault()
     e1_steps_per_unit=DEFAULT_E1_STEPS_PER_UNIT;
     
     // Extruder offset
-    for(short i=0; i<2; i++)
-    {
-        float e_offset_x[] = EXTRUDER_OFFSET_X;
-        float e_offset_y[] = EXTRUDER_OFFSET_Y;
+    //for(short i=0; i<2; i++)
+    //{
+        //float e_offset_x[] = EXTRUDER_OFFSET_X;
+        //float e_offset_y[] = EXTRUDER_OFFSET_Y;
         
-        extruder_offset[0][i]=e_offset_x[i];
-        extruder_offset[1][i]=e_offset_y[i];
-    }
+        //extruder_offset[0][i]=e_offset_x[i];
+        //extruder_offset[1][i]=e_offset_y[i];
+    //}
 
 
     
