@@ -62,7 +62,7 @@
 //This is for case a fan to cool down the electronics it will turn on after setup is complete.
 //it will turn on when any driver is enabled
 //and turn off after the set amount of seconds from last driver being disabled again
-#define CASEFAN_PIN 2 //Pin used for the fan to cool controller (-1 to disable)
+#define CASEFAN_PIN FAN2_PIN //Pin used for the fan to cool controller (-1 to disable)
 #define CASEFAN_SECS 15 //How many seconds, after all motors were disabled, the fan should run before going back to idle speed.
 #define CASEFAN_SPEED_FULL 100  // Full speed for when motor are active
 #define CASEFAN_SPEED_IDLE 70  	// Idle speed for when the motor have been inactive	
@@ -75,18 +75,29 @@
 // before setting a PWM value. (Does not work with software PWM for fan on Sanguinololu)
 //#define FAN_KICKSTART_TIME 100
 
-// Extruder cooling fans
-// Configure fan pin outputs to automatically turn on/off when the associated
-// extruder temperature is above/below EXTRUDER_AUTO_FAN_TEMPERATURE.
-// Multiple extruders can be assigned to the same pin in which case 
-// the fan will turn on when any selected extruder is above the threshold.
-#define EXTRUDER_0_AUTO_FAN_PIN   -1
-#define EXTRUDER_1_AUTO_FAN_PIN   -1
-#define EXTRUDER_2_AUTO_FAN_PIN   -1
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 50
-#define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
 
+// Extruder Fan Setup 
+// If set to -1 all Extruder fans will be disabled
+// If set to  1 only EX_FAN_0 will be used as a nozzle cooling fan for Extruder0
+// If set to  2 EX_FAN_0 and EX_FAN_1 will be used as nozzle cooling fan and will switch between active nozzles
+// If set to  3 EX_FAN_0 will be Contorled by M106 S255 and EX_FAN_1 will be controled by M106 P1 S255
+// If set to  4 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_1 will be used as a heat sink fan
+#define EXTRUDER_FAN_SETUP 3
+#define EX_FAN_0 FAN_PIN
+#define EX_FAN_1 FAN1_PIN
 
+#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 4
+    // Extruder cooling fans
+    // Configure fan pin outputs to automatically turn on/off when the associated
+    // extruder temperature is above/below EXTRUDER_AUTO_FAN_TEMPERATURE.
+    // Multiple extruders can be assigned to the same pin in which case 
+    // the fan will turn on when any selected extruder is above the threshold.
+    #define EXTRUDER_0_AUTO_FAN_PIN   EX_FAN_1
+    #define EXTRUDER_1_AUTO_FAN_PIN   EX_FAN_1
+    #define EXTRUDER_2_AUTO_FAN_PIN   -1
+    #define EXTRUDER_AUTO_FAN_TEMPERATURE 50
+    #define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
+#endif
 //===========================================================================
 //=============================Mechanical Settings===========================
 //===========================================================================

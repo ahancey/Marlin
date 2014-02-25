@@ -115,7 +115,7 @@
 // M92  - Set axis_steps_per_unit - same syntax as G92
 // M104 - Set extruder target temp
 // M105 - Read current temp
-// M106 - Fan on
+// M106 - Fan on - P0/P1 selects which fan to use for cooling S0 to S255 sets the fan speed 
 // M107 - Fan off
 // M109 - Sxxx Wait for extruder current temp to reach target temp. Waits only when heating
 //        Rxxx Wait for extruder current temp to reach target temp. Waits when heating and cooling
@@ -221,7 +221,9 @@ float extruder_offset[NUM_EXTRUDER_OFFSETS][EXTRUDERS] = {
 };
 #endif
 uint8_t active_extruder = 0;
+uint8_t active_FAN = 0;
 int fanSpeed=0;
+int fanSpeed1=0;
 #ifdef SERVO_ENDSTOPS
   int servo_endstops[] = SERVO_ENDSTOPS;
   int servo_endstop_angles[] = SERVO_ENDSTOP_ANGLES;
@@ -1994,15 +1996,60 @@ void process_commands()
 
     #if defined(FAN_PIN) && FAN_PIN > -1
       case 106: //M106 Fan On
-        if (code_seen('S')){
-           fanSpeed=constrain(code_value(),0,255);
-        }
-        else {
-          fanSpeed=255;
-        }
+		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 1  //If EXTRUDER_FAN_SETUP = 2 then P0 will control fan0 and P1 will switch to fan1
+		   	if (code_seen('S')){    //Setting the fan speed from 0 to 255
+				fanSpeed=constrain(code_value(),0,255);
+			}
+			else {
+				fanSpeed=255;
+			}
+		#endif 
+		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 2  //If EXTRUDER_FAN_SETUP = 2 then P0 will control fan0 and P1 will switch to fan1
+			if (code_seen('P')){ 
+				active_FAN=constrain(code_value(),0,1);
+			}
+			if (code_seen('S')){    //Setting the fan speed from 0 to 255
+				fanSpeed=constrain(code_value(),0,255);
+			}
+			else {
+				fanSpeed=255;
+			}
+		#endif   
+		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 3  //If EXTRUDER_FAN_SETUP = 2 then P0 will control fan0 and P1 will switch to fan1
+			active_FAN = 0;
+			if (code_seen('P')){ 
+				active_FAN=constrain(code_value(),0,1);
+			}
+			if (active_FAN == 0){
+				if (code_seen('S')){    //Setting the fan speed from 0 to 255
+					fanSpeed=constrain(code_value(),0,255);
+				}
+				else {
+					fanSpeed=255;
+				}
+			}
+			else if (active_FAN == 1){
+				if (code_seen('S')){    //Setting the fan speed from 0 to 255
+					fanSpeed1=constrain(code_value(),0,255);
+				}
+				else {
+					fanSpeed1=255;
+				}
+			}
+		#endif 
+		#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 4
+			if (code_seen('S')){    //Setting the fan speed from 0 to 255
+				fanSpeed=constrain(code_value(),0,255);
+			}
+			else {
+				fanSpeed=255;
+			}
+		#endif
         break;
       case 107: //M107 Fan Off
+		active_FAN = 0;
         fanSpeed = 0;
+		fanSpeed1 = 0;
         break;
     #endif //FAN_PIN
     #ifdef BARICUDA
@@ -2906,6 +2953,9 @@ void process_commands()
   else if(code_seen('T'))
   {
     tmp_extruder = code_value();
+	#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP ==2
+		active_FAN = code_value();
+	#endif
     if(tmp_extruder >= EXTRUDERS) {
       SERIAL_ECHO_START;
       SERIAL_ECHO("T");

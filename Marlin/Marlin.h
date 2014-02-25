@@ -213,6 +213,8 @@ extern float max_pos[3];
 extern bool axis_known_position[3];
 extern float zprobe_zoffset;
 extern int fanSpeed;
+extern int fanSpeed1;
+
 #ifdef BARICUDA
 extern int ValvePressure;
 extern int EtoPPressure;
@@ -220,6 +222,7 @@ extern int EtoPPressure;
 
 #ifdef FAN_SOFT_PWM
 extern unsigned char fanSpeedSoftPwm;
+extern unsigned char fanSpeedSoftPwm1;
 #endif
 
 #ifdef FWRETRACT
@@ -234,5 +237,5 @@ extern unsigned long stoptime;
 
 // Handling multiple extruders pins
 extern uint8_t active_extruder;
-
+extern uint8_t active_FAN;
 #endif

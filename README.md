@@ -189,7 +189,7 @@ M Codes
 *  M92  - Set axis_steps_per_unit - same syntax as G92
 *  M104 - Set extruder target temp
 *  M105 - Read current temp
-*  M106 - Fan on
+*  M106 - Fan on - P0/P1 selects which fan to use for cooling S0 to S255 sets the fan speed 
 *  M107 - Fan off
 *  M109 - Sxxx Wait for extruder current temp to reach target temp. Waits only when heating
 *         Rxxx Wait for extruder current temp to reach target temp. Waits when heating and cooling
